@@ -12,7 +12,7 @@ section.login-main {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 90%;
   max-width: 500px;
   color: #fffaf0;
 }
