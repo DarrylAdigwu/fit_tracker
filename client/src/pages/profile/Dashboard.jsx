@@ -1,6 +1,7 @@
 import React from "react";
 import { data, Form, useLoaderData } from "react-router";
-import "../../assets/css/dashboard.css"
+import "../../assets/css/dashboard.css";
+import plusIcon from "../../assets/images/plusIcon.svg";
 
 /*export async function loader() {
   
@@ -115,7 +116,13 @@ export default function Dashboard() {
             <label htmlFor="rep-input-1"></label>
             <input className="rep-input" id="rep-input-1" name="rep-input-1" placeholder="# of reps"/>
           </div>
-          <button id="add-exercise" type="button" onClick={newExercise}>Add Exercise</button>
+          <div className="exercise-btn-container">
+            <div id="add-exercise" onClick={newExercise}>
+              <img src={plusIcon} alt="plus sign" />
+              Add Exercise
+            </div>
+          </div>
+          <button id="submit-exercise" type="submit">Submit</button>
         </Form>
       </div>
     </div>
