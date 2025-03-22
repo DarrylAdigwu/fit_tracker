@@ -9,3 +9,13 @@ Content-Type: application/json
   "password": "",
   "confirmPassword": "hey"
 }
+
+### Login route
+post http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "username": "newme",
+  "password": "ass",
+  "confirmPassword": null
+}
