@@ -142,5 +142,5 @@ dist
 *.sw?
 
 # Rest_client
-rest_client.res
+rest_client.rest
 .DS_Store
