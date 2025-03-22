@@ -26,7 +26,17 @@ section.login-main h1 {
 
 Form.register-form,
 Form.login-form {
+  display: flex;
+  flex-wrap: wrap;
   margin-block: .25rem;
+}
+
+Form.register-form > label,
+Form.login-form > label {
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: .25rem;
+  padding: 0 13px;
 }
 
 Form.register-form > input,
@@ -38,9 +48,27 @@ Form.login-form > input {
   border: inset rgba(120, 120, 120, .5);
 }
 
+Form.register-form > input,
+Form.login-form > input {
+  margin-top: .5rem;
+  margin-bottom: .75rem;
+}
+
+.invalid {
+  color: #c05b5b;
+}
+
+Form.register-form > span.invalid,
+Form.login-form > span.invalid {
+  width: 100%;
+  padding: 0 13px;
+  color: #c05b5b;
+}
+
 Form.register-form > button,
 Form.login-form > button {
-  margin-block: 1rem;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
   width: 100%;
   height: 50px;
   background-color: #D98B22;
