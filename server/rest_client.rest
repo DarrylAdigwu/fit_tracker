@@ -1,1 +1,11 @@
 get http://localhost:3000
+
+### Register route
+post http://localhost:3000/register
+Content-Type: application/json
+
+{
+  "username": "Darryl",
+  "password": "",
+  "confirmPassword": "hey"
+}
