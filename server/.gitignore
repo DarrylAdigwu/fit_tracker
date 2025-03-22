@@ -140,3 +140,6 @@ dist
 *.njsproj
 *.sln
 *.sw?
+
+# Rest_client
+rest_client.rest
