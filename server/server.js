@@ -4,8 +4,9 @@ import morgan from "morgan";
 import cors from "cors";
 import helmet from "helmet";
 import session from "express-session";
-import mysql from "mysql2";
 import MySQLStore from "express-mysql-session";
+import { db, registerUser } from "./db.js";
+import { checkString } from "./utils.js";
 
 
 // Create Web App
@@ -14,21 +15,11 @@ const server = express();
 // Configure .env files
 dotenv.config();
 
-// Configure Database
-const options = {
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-}
-
 //Create SQL connection pool
 const SQLStore = MySQLStore(session);
-const dbPool = mysql.createPool(options).promise();
 
 // Create MySQLStore 
-const sessionStore = new SQLStore({}, dbPool);
+const sessionStore = new SQLStore({}, db);
 
 // Create Session
 server.use(session({
@@ -36,6 +27,7 @@ server.use(session({
   resave: false,
   saveUninitialized: false,
   store: sessionStore,
+  rolling: true,
   cookie: {
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
@@ -53,6 +45,7 @@ server.use(helmet());
 const corsOptions = {
   origin: ["http://localhost:5173"],
 }
+
 server.use(cors(corsOptions));
 
 // Configure middleware for JSON, public folder, and parsing body
@@ -74,6 +67,71 @@ server.route("/")
 .get(async (req, res) => {
   res.send("landing page")
 });
+
+// Register page
+server.route("/register")
+.post(async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  const confirmPass = req.body.confirmPassword;
+  if(req.method === 'POST') {
+
+    // Validate register form
+    if(!username) {
+      return res.status(400).json(
+        {serverError: {"invalidUsername": "Username is required!"}}
+      );
+    }
+
+    if(await checkString(username) !== null) {
+      return res.status(400).json(
+        {serverError: {"invalidChar": "Username cannot not contain special characters!"}}
+      )
+    }
+
+    if(!password) {
+      return res.status(400).json(
+        {serverError: {"invalidPassword": "Password is required!"}}
+      )
+    }
+
+    if(password !== confirmPass) {
+      return res.status(400).json(
+        {serverError: {"invalidConfirmPass": "Passwords must match!"}}
+      )
+    }
+
+    
+    // If registration is valid
+    const register = await registerUser(username, password);
+    
+    //Return response to client for page redirect
+    return res.status(200).json(
+      {serverCheck: {"valid": "Data is valid"}}
+    )
+  }
+});
+
+server.route("/login")
+.post(async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  if(req.method === 'POST') {
+    // Validate login form
+    if(!username) {
+      return res.status(400).json(
+        {serverError: {"invalidUsername": "Username is required!"}}
+      );
+    }
+
+    if(!password) {
+      return res.status(400).json(
+        {serverError: {"invalidPassword": "Password is required!"}}
+      )
+    }
+  }
+})
 
 server.listen(process.env.PORT, () => {
   console.log(`Server listening on port ${process.env.PORT}`);
