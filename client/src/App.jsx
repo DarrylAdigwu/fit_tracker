@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } 
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import About from './pages/About';
-import Register from './pages/Register';
+import Register, { action as registerAction} from './pages/Register';
 import Login from './pages/Login';
 import Error from './pages/Error';
 import Dashboard from './pages/profile/Dashboard';
@@ -24,6 +24,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route 
       path="register"
       element={<Register />}
+      action={registerAction}
     />
     <Route 
       path="login"
