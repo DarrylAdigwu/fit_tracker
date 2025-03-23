@@ -71,9 +71,10 @@ server.route("/")
 // Register page
 server.route("/register")
 .post(async (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const confirmPass = req.body.confirmPassword;
+  const allData = req.body.allData;
+  const username = allData.username;
+  const password = allData.password;
+  const confirmPass = allData["confirm-password"];
   
   if(req.method === 'POST') {
 
@@ -115,10 +116,13 @@ server.route("/register")
 
 server.route("/login")
 .post(async (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
+  const allData = req.body.allData;
+  const username = allData.username;
+  const password = allData.password;
   const authorizeUser = await authLogin(username, password);
+
   if(req.method === 'POST') {
+    
      // Validate login form
      if(!username) {
       return res.status(400).json(
@@ -154,6 +158,7 @@ server.route("/login")
     return res.status(200).json(
       {serverCheck: {"valid": "Data is valid"}}
     )
+
   }
 })
 

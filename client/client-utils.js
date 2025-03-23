@@ -1,4 +1,4 @@
-export async function sendData(route, username, password, confirmPassword = null) { 
+export async function sendData(route, allData) { 
   try {
     const response = await fetch(`http://localhost:3000/${route}`, {
       method: "POST",
@@ -6,9 +6,7 @@ export async function sendData(route, username, password, confirmPassword = null
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username, 
-        password, 
-        confirmPassword
+        allData
       })
     });
     

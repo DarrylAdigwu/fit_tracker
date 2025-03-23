@@ -6,11 +6,12 @@ import { sendData } from "../../client-utils";
 export async function action({ request }) {
    // Form data
    const formData = await request.formData();
+   const allData = Object.fromEntries(formData);
    const username = formData.get("username");
    const password = formData.get("password");
 
    // Send form data to server
-   const sendFormData = await sendData("login", username, password);
+   const sendFormData = await sendData("login", allData);
 
    /**  Client side validation **/
   const errors = {};
